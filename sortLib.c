@@ -1,4 +1,5 @@
 #include <stdlib.h>
+#include <string.h>
 
 static int cmp(const void *a, const void *b) {
     return *((int*) a) - *((int*) b);
@@ -94,4 +95,19 @@ void quickSort(int *a, int n) {
 
     quickSort(a, pos);
     quickSort(a + pos + 1, n - pos - 1);
+}
+
+#define BASE 65535
+#define LEN 16
+
+void radixSort(int *a, int n) {
+    static int cnt[BASE + 1],tmp[N];
+    memset(cnt, 0, sizeof cnt);
+    for (int i = 0; i < n; i++) cnt[a[i] & BASE]++;
+    for (int i = 1; i <= BASE; i++) cnt[i] += cnt[i - 1];
+    for (int i = n - 1; i >= 0; i--) tmp[--cnt[a[i] & BASE]] = a[i];
+    memset(cnt, 0, sizeof cnt);
+    for (int i = 0; i < n; i++) cnt[tmp[i] >> LEN]++;
+    for (int i = 1; i <= BASE; i++) cnt[i] += cnt[i - 1];
+    for (int i = n - 1; i >= 0; i--) a[--cnt[tmp[i] >> LEN]] = tmp[i];
 }

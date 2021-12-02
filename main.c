@@ -6,21 +6,25 @@
 #include "sortLib.h"
 #include "testLib.h"
 
-#define N 1000005
+#define N 30000005
 
 int a[N];
 
-void (*sortFuncs[])(int*, int) = {stdSort, bubbleSort, selectionSort, insertionSort, mergeSort, quickSort, radixSort};
+const void (*sortFuncs[])(int*, int) = {stdSort, bubbleSort, selectionSort, insertionSort, mergeSort, quickSort, radixSort};
 
-char sortFuncNames[][15] = {" stdSort", "bubbleSort", "selectionSort", "insertionSort", "mergeSort", "quickSort", "radixSort"};
+const char sortFuncNames[][15] = {" stdSort", "bubbleSort", "selectionSort", "insertionSort", "mergeSort", "quickSort", "radixSort"};
 
-int sortFuncNameLens[] = {7, 10, 13, 13, 9, 9, 9};
+const int sortFuncNameLens[] = {7, 10, 13, 13, 9, 9, 9};
 
-void (*generateFuncs[])(int*, int) = {generateRandomData, generateAlmostSortedData, generateSortedData};
+const void (*generateFuncs[])(int*, int) = {generateRandomData, generateAlmostSortedData, generateSortedData};
 
-char generateFuncNames[][25] = {"RandomData:", "AlmostSortedData:", "SortedData:"};
+const char generateFuncNames[][25] = {"RandomData:", "AlmostSortedData:", "SortedData:"};
 
-int dataSize[] = {100, 1000, 10000, 100000};
+const int dataSize[] = {100, 1000, 10000, 100000};
+
+const int largeDataFuncIds[] = {0, 4, 5, 6};
+
+const int largeDataSize = 3e7;
 
 int main() {
 
@@ -49,5 +53,27 @@ int main() {
 
         puts("");
     }
+
+    puts("LargeData:");
+
+    puts("+----------+----------+-----------+-----------+-----------+");
+
+    printf("| dataSize |");
+    for (int k = 0; k < 4; k++) {
+        int i = largeDataFuncIds[k];
+        printf(" %s |", sortFuncNames[i]);
+    }
+    puts("");
+
+    printf("| %8d |", largeDataSize);
+
+    for (int k = 0; k < 4; k++) {
+        int i = largeDataFuncIds[k];
+        printf(" %*lf |", sortFuncNameLens[i], testSortFunction(a, largeDataSize, sortFuncs[i], generateRandomData));
+    }
+    puts("");
+
+    puts("+----------+----------+-----------+-----------+-----------+");
+
     return 0;
 }

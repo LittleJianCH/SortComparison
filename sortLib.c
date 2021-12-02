@@ -57,7 +57,7 @@ void insertionSort(int *a, int n) {
     }
 }
 
-#define N 1000005
+#define N 30000005
 
 void mergeSort(int *a, int n) {
     static int tmp[N];
